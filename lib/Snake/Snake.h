@@ -4,7 +4,7 @@
 #define APPLE -1
 
 #define ROWS 15
-#define COLS 22
+#define COLS 21
 #define SIZE 4
 
 #define UP -1

@@ -103,11 +103,7 @@ void loop()
 		tick(inputChar, game);
 		delay(40);
 	}
-
-	// test test test
-
-  // test github 
-
+  
   Serial.println("GAME OVER");
 
 
@@ -145,7 +141,7 @@ void drawApple(int x, int y) {
 }
 
 void drawLvl(int level) {
-  char lvl_x = COLS*SIZE + BORDER;
+  char lvl_x = COLS*SIZE + BORDER + 2;
   char lvl_y = 0;
   char str[4];
   sprintf(str, "%02d", level);
@@ -157,7 +153,7 @@ void drawLvl(int level) {
 }
 
 void drawScr(int score) {
-  char scr_x = COLS*SIZE + BORDER;
+  char scr_x = COLS*SIZE + BORDER + 2;
   char scr_y = 32;
   char str[4];
   sprintf(str, "%02d", score);
@@ -182,8 +178,8 @@ void drawPostScore(Game game) {
 }
 
 void drawGrid(Game game) {
-  display.drawRect(0, 0, COLS*SIZE + 2, ROWS*SIZE + 2, SSD1306_WHITE);
-  display.drawRect(1, 1, COLS*SIZE, ROWS*SIZE, SSD1306_WHITE);
+  display.drawRect(0, 0, COLS*SIZE + 4, ROWS*SIZE + 4, SSD1306_WHITE);
+  display.drawRect(1, 1, COLS*SIZE + 2, ROWS*SIZE + 2, SSD1306_WHITE);
 
   for (int i = 0; i < ROWS; i++) {
     for (int j = 0; j < COLS; j++) {
