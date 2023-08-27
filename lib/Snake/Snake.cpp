@@ -1,3 +1,4 @@
+#include <Arduino.h>
 #include <stdlib.h>
 #include "Snake.h"
 
@@ -78,7 +79,7 @@ void deleteGame(Game game) {
 
 struct pos getDeltaPos(char inChar, Game game)
 {
-    char dir = game->dir;
+    int dir = game->dir;
     switch (inChar)
     {
     case 'w':
@@ -197,7 +198,7 @@ void tick(char inChar, Game game)
         randomisePos(game->applePos, game);
 
         // Update apple in grid
-        game->grid[game->applePos->x][game->applePos->y] = APPLE;
+        game->grid[game->applePos->y][game->applePos->x] = APPLE;
 
     } else {
         // no apple collected, make current tail square EMPTY

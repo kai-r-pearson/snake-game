@@ -5,7 +5,6 @@
 #include <Adafruit_SSD1306.h>
 
 #include <Snake.h>
-// #include <DrawSnakeSSD1306.h>
 
 using namespace std;
 
@@ -23,6 +22,12 @@ using namespace std;
 #define SCREEN_ADDRESS 0x3C ///< See datasheet for Address; 0x3D for 128x64, 0x3C for 128x32
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 Adafruit_SSD1306 *p_display;
+
+// Button pins
+#define LEFT_BTN 16
+#define RIGHT_BTN 2
+#define UP_BTN 4
+#define DOWN_BTN 0
 
 int level;
 int period;
@@ -50,6 +55,7 @@ const unsigned char bmp_scr [] PROGMEM = {
 };
 
 // FUNCTION DECLARATIONS
+char getKey();
 void drawSnake(int x, int y);
 void drawApple(int x, int y);
 void drawLvl(int level);
@@ -66,8 +72,7 @@ void setup()
 	if (!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS))
 	{
 		Serial.println(F("SSD1306 allocation failed"));
-		for (;;)
-			; // Don't proceed, loop forever
+		for (;;); // Don't proceed, loop forever
 	}
 
 	// Clear initial display buffer contents --
@@ -76,16 +81,19 @@ void setup()
 
 	level = 0;
 	period = 1000;
+
+  pinMode(LEFT_BTN, INPUT_PULLUP);
+  pinMode(RIGHT_BTN, INPUT_PULLUP);
+  pinMode(UP_BTN, INPUT_PULLUP);
+  pinMode(DOWN_BTN, INPUT_PULLUP);
 }
 
 void loop()
 {
 	Game game = newGame();
 
-	while (!game->gameOver)
-	{
-
-		char inputChar = 'w';
+	while (!game->gameOver) {
+    char inputChar = getKey();
 		drawGrid(game);
 		drawLvl(level);
 		drawScr(game->length);
@@ -100,8 +108,33 @@ void loop()
 
   // test github 
 
+  Serial.println("GAME OVER");
+
 
 	deleteGame(game);
+}
+
+
+// FUNCTION DEFINITIONS
+
+char getKey() {
+  // read the state of the switch into a local variable:
+  int up = digitalRead(UP_BTN);
+  int down = digitalRead(DOWN_BTN);
+  int left = digitalRead(LEFT_BTN);
+  int right = digitalRead(RIGHT_BTN);
+
+  if (up == LOW) {
+    return 'w';
+  } else if (down == LOW) {
+    return 's';
+  } else if (right == LOW) {
+    return 'd';
+  } else if (left == LOW) {
+    return 'a';
+  } else {
+    return ' ';
+  }
 }
 
 void drawSnake(int x, int y) {
