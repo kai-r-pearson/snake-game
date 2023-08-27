@@ -1,0 +1,15 @@
+Moving snake
+
+store length of snake
+
+on the grid, the head square's value is snake's length
+
+if snake hits itself, game over
+
+if snake hits apple, 
+    increment length 
+    square it is moving into becomes new length
+
+if snake hits nothing,
+    square it is moving into becomes length + 1
+    decrement all positive values in grid
